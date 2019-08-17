@@ -40,8 +40,13 @@ public class B2581 {
 			addPrime += primeList.get(i);
 		}
 		
-		System.out.println(addPrime);
-		System.out.println(primeList.get(0));
+		if(addPrime == 0) {
+			System.out.println(-1);
+		}else {
+			System.out.println(addPrime);
+			System.out.println(primeList.get(0));
+		}
+		
 		
 		sc.close();
 	}
