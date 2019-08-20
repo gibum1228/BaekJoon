@@ -8,8 +8,6 @@
  */
 import java.util.Scanner;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Collections;
 
 public class B1427 {
 
@@ -17,19 +15,19 @@ public class B1427 {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
-		String text = sc.nextLine();
-		String[] charList = text.split("");
+		String s = sc.nextLine();
 		
-		for(int i = 0; i < charList.length; i++) {
-			System.out.println(charList[i]);
+		int size = s.length();
+		char[] charList = new char [size];
+		
+		for(int i = 0; i < size; i++) {
+			charList[i] = s.charAt(i);
 		}
 		
-		List<String> List = Arrays.asList(charList);
+		Arrays.sort(charList);
 		
-		Collections.reverse(List);
-		
-		for(int i = 0; i < List.size(); i++) {
-			System.out.print(List.get(i));
+		for(int i = size-1; i >= 0; i--) {
+			System.out.print(charList[i]);
 		}
 		
 		sc.close();
