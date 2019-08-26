@@ -25,9 +25,7 @@ public class B4153 {
 				break;
 			}
 			
-			int xy = (x * x) + (y * y);
-			
-			if(xy == (z * z)) { // 피타고라스 정의가 맞는지 확인
+			if(((x*x + y*y == z*z) || (x*x + z*z == y*y)) || (y*y + z*z == x*x)) { // 피타고라스 정의가 맞는지 확인
 				System.out.println("right");
 			}else {
 				System.out.println("wrong");
