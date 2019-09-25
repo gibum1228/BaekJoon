@@ -26,16 +26,16 @@ public class B1181 {
 		}
 		
 		Arrays.sort(wordNote); // 단어 정렬
-		// 단어 길이 별로 정렬하기
+		
 		String tmp; // 변경을 위한 변수
 		for(int i = 0; i < size; i++) { // 단어를 조건에 맞게 정렬하기
 			for(int j = 0; j < size; j++) {
-				if(wordNote[i].length() > wordNote[j].length()) {
+				if(wordNote[i].length() < wordNote[j].length()) { // 길이가 짧은 단어가 먼저 출력
 					tmp = wordNote[i];
 					wordNote[i] = wordNote[j];
 					wordNote[j] = tmp;
-				} else if(wordNote[i].length() == wordNote[j].length()) {
-					if(wordNote[i].compareTo(wordNote[j]) > 0) {
+				} else if(wordNote[i].length() == wordNote[j].length()) { // 단어 순서가 빠른(단어 크기가 작은) 단어가 먼저 출력
+					if(wordNote[i].compareTo(wordNote[j]) < 0) { // i가 j보다 작으면 음수(i가 j보다 단어 순서가 빠르다는 뜻)
 						tmp = wordNote[i];
 						wordNote[i] = wordNote[j];
 						wordNote[j] = tmp;
@@ -44,8 +44,15 @@ public class B1181 {
 			}
 		}
 		
-		for(int i = 0; i < size; i++) {
-			System.out.println(wordNote[i]);
+		// print
+		for(int i = 0; i < size - 1; i++) {
+			if(wordNote[i].compareTo(wordNote[i+1]) == 0) { // 같은 문자열이면 return값 0
+				continue;
+			}
+			System.out.println(wordNote[i]); // 단어 출력
+			if(i == size - 2) { // 마지막 단어 출력
+				System.out.print(wordNote[size-1]);
+			}
 		}
 		
 		sc.close();
