@@ -19,45 +19,12 @@ Go: sum(a []int) int
 a: 합을 구해야 하는 정수 n개가 저장되어 있는 배열 (0 ≤ a[i] ≤ 1,000,000, 1 ≤ n ≤ 3,000,000)
 리턴값: a에 포함되어 있는 정수 n개의 합
  */
-import java.util.Scanner;
-import java.util.ArrayList;
-
-public class B15596 {
-	
-	static long sum(int[] a) {
-		int sum = 0;
-		
-		for(int i = 0; i < a.length; i++) {
-			sum += a[i];
-		}
-		
-		return sum;
-	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
-		
-		ArrayList<Integer> digitList = new ArrayList<Integer>(1); 
-		
-		while(true) {
-			try{
-				int input = sc.nextInt();
-				
-				digitList.add(input);
-			}
-			catch (Exception e) {
-				break;
-			}
-		}
-		
-		int[] a = new int [digitList.size()];
-		for(int i = 0; i < a.length; i++) {
-			a[i] = digitList.get(i);
-		}
-		System.out.println(sum(a));
-		
-		sc.close();
-	}
-	
+public class B15596 { // 백준에서는 Test로 돌려야 함
+    long sum(int[] a) {
+        long ans = 0;
+        for(int i  = 0; i < a.length; i++){ // 이 줄 빼고는 제출 버튼 누르면 자동으로 주는 소스 + a[i] 사이즈만큼 for문 돌려서 ans에다가 더해주면 됨
+            ans += a[i];
+        }
+        return ans;
+    }
 }
