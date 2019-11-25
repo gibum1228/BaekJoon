@@ -15,18 +15,23 @@ public class B2292 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
-		int sum = 1, count = 0;
-		int n = sc.nextInt();
 		
-		for(int i = 0; ; i++) {
-			if(sum > n) {
+		int n = sc.nextInt();
+		int count = 1;
+		int sum = 1;
+		int add = 6;
+		
+		while(true) {
+			if(n <= sum) {
 				break;
 			}
-			sum = sum + (6 * i);
+			
+			sum += add;
+			add += 6;
 			count++;
 		}
 		
-		System.out.print(count);
+		System.out.println(count);
 		
 		sc.close();
 	}
