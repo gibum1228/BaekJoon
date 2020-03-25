@@ -18,21 +18,21 @@ import java.util.Scanner;
 public class B2884 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
 		int hour = sc.nextInt(); // 시 입력받기
 		int min = sc.nextInt(); // 분 입력받기
-		
-		if(hour == 0) { // 0시에 기상하고 싶으면 전날에 일어나야하기 때문에 24로 변경
-			hour = 24;
+
+		if(hour == 0 && min < 45) {
+			hour = 23;
+			min = 60 - ( 45 - min);
+		}else if(min < 45){
+			hour -= 1;
+			min = 60 - (45 - min);
 		}
-		
-		int addMin = (hour * 60) + min; // 분으로 변환
-		addMin -= 45; // 45분 빼기
-		
-		hour = addMin / 60; 
-		min = addMin % 60;
+			else {
+			min -= 45;
+		}
 		
 		System.out.println(hour + " " + min);
 		
