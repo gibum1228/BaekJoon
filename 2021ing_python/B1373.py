@@ -1,0 +1,1 @@
+print(oct(int(input(), 2)).split("0o")[1])
