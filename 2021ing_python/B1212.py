@@ -1,0 +1,1 @@
+print(bin(int(input(), 8)).split("0b")[1])
