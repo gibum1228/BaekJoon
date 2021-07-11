@@ -5,7 +5,7 @@ sys.setrecursionlimit(10**6) # Recursion Runtime Error 방지 => 재귀 함수 �
 def logic(n):
     # 최대값이 정해져 있지 않다면
     if dp[n] is None:
-        dp[n] = max(max(logic(n-2), logic(n - 3) + wine[n-2]) + wine[n-1], logic(n-1))
+        dp[n] = max(max(logic(n-2), logic(n-3) + wine[n-2]) + wine[n-1], logic(n-1))
 
     return dp[n]
 
