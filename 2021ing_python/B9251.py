@@ -1,5 +1,3 @@
-import sys
-
 if __name__ == '__main__':
     standard_str = input()
     compared_str = input()
