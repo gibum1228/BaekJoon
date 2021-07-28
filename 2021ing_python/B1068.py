@@ -3,47 +3,34 @@ import sys
 class Node:
     def __init__(self, key):
         self.key = key
-        self.left = None
-        self.right = None
+        self.child = []
 
     def append(self, parents, index):
         if self.key == parents:
-            if not self.left: # find left child or right child
-                self.left = Node(index)
-            else:
-                self.right = Node(index)
+            self.child.append(Node(index)) # find left child or right child
             return
 
-        if self.left:
-            self.left.append(parents, index)
-        if self.right:
-            self.right.append(parents, index)
+        if self.child: # 자식이 있으면
+            for child_node in self.child: # 자식 중에서 parents를 key로 가진 노드 찾기
+                child_node.append(parents, index)
 
-    def remove(self, target):
-        if self.left:
-            if self.left.key == target:
-                self.left = None
+    def delete(self, target):
+        for i in range(len(self.child)): # child 길이 만큼
+            if self.child[i].key == target: # i번째 child가 삭제할 타겟이면 삭제
+                self.child.pop(i)
                 return
-            self.left.remove(target)
-        if self.right:
-            if self.right.key == target:
-                self.right = None
-                return
-            self.right.remove(target)
-
+            else: # 아니면 다음 자식들 중에서 target 찾기
+                self.child[i].delete(target)
 
     def search(self):
-        if not self.left and not self.right: # plus
+        if not self.child: # 리프 노드(자식이 없음)
             global count
-            if self.key == 0:
-                count = 0
-            else:
-                count += 1
+            count += 1
+            return
 
-        if self.left:
-            self.left.search()
-        if self.right:
-            self.right.search()
+        if self.child: # 자식들을 기준으로 탐색
+            for child_node in self.child:
+                child_node.search()
 
 if __name__ == '__main__':
     # input
@@ -62,9 +49,11 @@ if __name__ == '__main__':
         for i in range(1, len(node_list)):
             if node_list[i] != -1:
                 node.append(node_list[i], i)
+
         # remove node
-        node.remove(remove_target)
+        node.delete(remove_target)
         # calculate count
         node.search()
+
         # print
         print(count)
