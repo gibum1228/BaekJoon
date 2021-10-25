@@ -2,42 +2,34 @@ import sys
 sys.setrecursionlimit(10**9)
 
 
-class Node:
-    def __init__(self, key: int, left = None, right = None):
-        self.key = key
-        self.left = left
-        self.right = right
+def postorder(start, end):
+    if start >= end:
+        return
 
-    def insertNode(self, key):
-        if self.key > key:
-            if self.left:
-                self.left.insertNode(key)
-            else:
-                self.left = Node(key)
-                return
-        else:
-            if self.right:
-                self.right.insertNode(key)
-            else:
-                self.right = Node(key)
-                return
+    node = preorder[start]
 
-    def postOrder(self):
-        if self.left:
-            self.left.postOrder()
-        if self.right:
-            self.right.postOrder()
-        if self.key != -1:
-            print(self.key)
+    if preorder[end - 1] <= node:
+        postorder(start + 1, end)
+        print(node)
+        return
+
+    for i in range(start + 1, end):
+        if preorder[i] > node:
+            idx = i
+            break
+
+    postorder(start + 1, idx)
+    postorder(idx, end)
+    print(node)
 
 
 if __name__ == "__main__":
-    root = Node(-1)
+    preorder = []
 
     while True:
         try:
-            root.insertNode(int(sys.stdin.readline().rstrip()))
+            preorder.append(int(sys.stdin.readline().rstrip()))
         except:
             break
 
-    root.postOrder()
+    postorder(0, len(preorder))
