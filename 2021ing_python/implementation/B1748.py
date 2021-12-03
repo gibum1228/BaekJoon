@@ -16,7 +16,7 @@ if __name__ == "__main__":
             if i == 1:
                 result += 9
             else:
-                result += 10 * i * 9
+                result += pow(10, i-1) * i * 9
 
         i += 1
 
