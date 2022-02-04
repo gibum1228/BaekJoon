@@ -6,7 +6,7 @@ IN = sys.stdin.readline
 if __name__ == "__main__":
     N = int(IN())
     board = [list(map(int, IN().split())) for _ in range(N)]
-    results = [-1]
+    results = [1]
     original_visited = [[False for _ in range(N)] for _ in range(N)]
     move = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
                         visited[dx][dy] = True
                         que.append((dx, dy))
 
-    for n in range(1, max(max(board)) + 1):
+    for n in range(1, max(max(board))):
         visited = copy.deepcopy(original_visited)
         count = 0
 
