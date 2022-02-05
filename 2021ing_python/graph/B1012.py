@@ -2,10 +2,10 @@ import sys
 
 def bfs(board, x, y):
     que = [(x, y)]
+    visited[x][y] = True
 
     while que:
         focus_x, focus_y = que.pop(0)
-        visited[focus_x][focus_y] = True
 
         for dx, dy in move:
             dx += focus_x
@@ -13,6 +13,7 @@ def bfs(board, x, y):
 
             if 0 <= dx < M and 0 <= dy < N:
                 if board[dx][dy] == 1 and not visited[dx][dy]:
+                    visited[dx][dy] = True
                     que.append((dx, dy))
                     position.remove((dx, dy))
 
