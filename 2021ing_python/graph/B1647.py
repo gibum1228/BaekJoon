@@ -1,4 +1,5 @@
 import sys
+sys.setrecursionlimit(10**6)
 
 IN = sys.stdin.readline
 
@@ -10,17 +11,18 @@ def find(v):
 def union(a, b):
     root1 = find(a)
     root2 = find(b)
-    parent[root2] = root1
+    if a < b:
+        parent[root2] = root1
+    else:
+        parent[root1] = root2
 
 def kruskal():
     result = 0
     edge = 0
 
-    while True:
+    for w, a, b in board:
         if edge == N-2:
             break
-
-        w, a, b = board.pop(0)
 
         if find(a) != find(b):
             result += w
@@ -34,10 +36,11 @@ if __name__ == "__main__":
     parent = [i for i in range(N+1)]
     board = []
 
-    for i in range(M):
+    for _ in range(M):
         A, B, C = map(int, IN().split())
 
-        board.append((C, A, B))
+        board.append([C, A, B])
+
     board.sort()
 
     print(kruskal())
