@@ -1,5 +1,4 @@
 import sys
-import heapq
 sys.setrecursionlimit(10**6)
 
 IN = sys.stdin.readline
@@ -13,8 +12,11 @@ if __name__ == "__main__":
     for _ in range(M):
         u, v = map(int, IN().split())
 
-        heapq.heappush(G[u], v)
-        heapq.heappush(G[v], u)
+        G[u].append(v)
+        G[v].append(u)
+    
+    for arr in G:
+        arr.sort()
 
     def dfs(start, count):
         results[start] = count
