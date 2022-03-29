@@ -9,30 +9,47 @@ if __name__ == "__main__":
     current_count = [0] * 4
     min_num, max_num = 10**9, -(10**9)
 
-    def dfs(value, current_count):
-        global min_num, max_num
+    def dfs(value, current_count, start):
+        global min_num, max_num, N, num
 
-        for n in num[1:]:
-            if current_count[0] < op[0]: # 덧셈
-                current_count[0] += 1
-                value = value + n
-            elif current_count[1] < op[1]: # 뺄셈
-                current_count[1] += 1
-                value = value - n
-            elif current_count[2] < op[2]: # 곱셈
-                current_count[2] += 1
-                value = value * n
-            elif current_count[3] < op[3]: # 나눗셈
-                current_count[3] += 1
-                value = value // n
-            else:
-                min_num = min(min_num, value)
-                max_num = max(max_num, value)
-                return
+        for n in range(start, N):
+            for i in range(4):
+                if current_count[i] < op[i]:
+                    if i == 0:
+                        current_count[i] += 1
+                        n_value = value + num[n]
+                        print("=====")
+                        print(f"{n}({value})에서 연산자{i} => {n_value}")
+                        dfs(n_value, current_count, n+1)
+                        current_count[i] -= 1
+                    elif i == 1:
+                        current_count[i] += 1
+                        n_value = value - num[n]
+                        print("=====")
+                        print(f"{n}({value})에서 연산자{i} => {n_value}")
+                        dfs(n_value, current_count, n+1)
+                        current_count[i] -= 1
+                    elif i == 2:
+                        current_count[i] += 1
+                        n_value = value * num[n]
+                        print("=====")
+                        print(f"{n}({value})에서 연산자{i} => {n_value}")
+                        dfs(n_value, current_count, n+1)
+                        current_count[i] -= 1
+                    else:
+                        current_count[i] += 1
+                        n_value = -(-value // num[n]) if value < 0 else value // num[n]
+                        print("=====")
+                        print(f"{n}({value})에서 연산자{i} => {n_value}")
+                        dfs(n_value, current_count, n+1)
+                        current_count[i] -= 1
 
-            dfs(value, current_count)
+        if start == N:
+            min_num = min(min_num, value)
+            max_num = max(max_num, value)
 
-    dfs(num[0], current_count)
+    dfs(num[0], current_count, 1)
 
-    print(min_num)
+    print("=====")
     print(max_num)
+    print(min_num)
