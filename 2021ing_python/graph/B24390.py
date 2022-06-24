@@ -4,20 +4,12 @@ IN = sys.stdin.readline
 
 if __name__ == "__main__":
     M, S = map(int, IN().split(":"))
-    count = 0
-    
-    T = M * 60 + S
-    if T < 30:
-        print(T // 10 + 1)
+    count = 1
+    count += (M//10 + M%10)
+
+    if S < 30:
+        count += (S//10)
     else:
-        count += 1
-        T -= 30
-        count += T // 600
-        T %= 600
-        count += T // 60
-        T %= 60
-        count += T // 30
-        T %= 30
-        count += T // 10
-        
-        print(count)
+        count += ((S-30)//10)
+
+    print(count)
