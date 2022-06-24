@@ -1,42 +1,42 @@
-import copy
 import sys
+from collections import deque
 
 IN = sys.stdin.readline
 
+def bfs(h, w):
+    que = deque([(h, w)])
+    check = 0
+
+    while que:
+        y, x = que.popleft()
+
+        for dy, dx in move:
+            f_y = y + dy
+            f_x = x + dx
+
+            if 0 <= f_y < H and 0 <= f_x < W and board[f_y][f_x] != "W" and not visited[f_y][f_x]:
+                visited[f_y][f_x] = True
+                board[f_y][f_x] = board[y][x] + 1
+                que.append((f_y, f_x))
+                check = max(check, board[f_y][f_x])
+
+    return check
+
 if __name__ == "__main__":
     H, W = map(int, IN().split())
-    board = [list(IN().rstrip()) for _ in range(H)]
-    move = [(-1, 0), (0, 1), (1, 0), (-1, 0)]
-    results = []
+    board, count = [], []
+    move = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+    result = 0
 
-    def bfs(x, y):
-        que = [(x, y)]
-        next_que = []
-        visited[x][y] = True
-        count = 0
+    for _ in range(H):
+        board.append(list(IN().rstrip()))
 
-        while que:
-            count += 1
-
-            for x, y in que:
-                for mx, my in move:
-                    dx = x + mx
-                    dy = y + my
-
-                    if 0 <= dx < H and 0 <= dy < W:
-                        if board[dx][dy] == 'L' and not visited[dx][dy]:
-                            next_que.append((dx, dy))
-                            visited[dx][dy] = True
-
-            que = copy.deepcopy(next_que)
-            next_que = []
-
-        return count
-
-    for x in range(H):
-        for y in range(W):
-            if board[x][y] == 'L':
+    for h in range(H):
+        for w in range(W):
+            if board[h][w] != "W":
                 visited = [[False for _ in range(W)] for _ in range(H)]
-                results.append(bfs(x, y))
+                board[h][w] = 0
+                visited[h][w] = True
+                result = max(result, bfs(h, w))
 
-    print(max(results))
+    print(result)
