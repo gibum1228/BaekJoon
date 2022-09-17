@@ -1,7 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,python,visualstudiocode,eclipse,pycharm
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,python,visualstudiocode,eclipse,pycharm
 
-*/.idea/
+2021ing_python/.idea/*
+.idea/
+../.idea/
+*/.idea/*
 *.java
 */bin/
 
