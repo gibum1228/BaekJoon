@@ -1,31 +1,30 @@
 import sys
+from collections import deque
 
 IN = sys.stdin.readline
 
 if __name__ == "__main__":
-    N = int(IN())
-    M = int(IN())
-    G = [[] for _ in range(N+1)]
-    visited = [False for _ in range(N+1)]
-    results = len(G[1])
+    G = {i: set() for i in range(1, int(IN()) + 1)}
 
-    for _ in range(M):
+    for _ in range(int(IN())):
         a, b = map(int, IN().split())
 
-        G[a].append(b)
-        G[b].append(a)
-    
-    def bfs():
-        global results
+        G[a].add(b)
+        G[b].add(a)
 
-        for x in G[1]:
-            visited[x] = True
+    que = deque([(1, 0)])
+    visited = [False for _ in range(len(G) + 1)]
+    visited[1] = True
+    count = 0
 
-            for i in G[x]:
-                if not visited[i]:
-                    visited[i] = True
-                    results += 1
+    while que:
+        current_node, current_weight = que.popleft()
 
-    bfs()
+        if current_weight < 2:
+            for next_node in G[current_node]:
+                if not visited[next_node]:
+                    visited[next_node] = True
+                    que.append((next_node, current_weight + 1))
+                    count += 1
 
-    print(results)
+    print(count)
