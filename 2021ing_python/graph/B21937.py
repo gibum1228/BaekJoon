@@ -1,41 +1,30 @@
 import sys
-from collections import deque
 
 IN = sys.stdin.readline
 
 if __name__ == "__main__":
     N, M = map(int, IN().split())
-    G = [[] for _ in range(N + 1)]
-    visited = [False for _ in range(N + 1)]
-
+    G = {k: [] for k in range(1, N+1)}
     for _ in range(M):
         A, B = map(int, IN().split())
-
-        G[A].append(B)
-
+        G[B].append(A)
     X = int(IN())
-    result = 0
+    visited = [False] * (N+1)
 
-    def dfs(start, count):
-        global result
+    def dfs(start):
+        que = [start]
+        visited[start] = True
+        result = 0
 
-        if start == X:
-            result += count
-            return
+        while que:
+            now_node = que.pop()
 
-        for x in G[start]:
-            if not visited[x]:
-                 visited[x] = True
-                 dfs(x, count + 1)
-            else:
-                dfs(x, count)
+            for next_node in G[now_node]:
+                if not visited[next_node]:
+                    que.append(next_node)
+                    visited[next_node] = True
+                    result += 1
 
-    for i in range(1, N+1):
-        if G[i]:
-            if not visited[i]:
-                visited[i] = True
-                dfs(i, 1)
-            else:
-                dfs(i, 0)
+        return result
 
-    print(result)
+    print(dfs(X))
