@@ -5,8 +5,9 @@ IN = sys.stdin.readline
 
 if __name__ == "__main__":
     N, K = map(int, IN().split())
-    G = [[] for _ in range(N+1)]
+    G = {k:[] for k in range(1, N+1)}
 
+    # input Graph
     for _ in range(K):
         A, B = map(int, IN().split())
 
@@ -14,21 +15,25 @@ if __name__ == "__main__":
         G[B].append(A)
 
     def bfs(start_node):
-        result = 0
-        que = deque([start_node])
-        visited = [False for _ in range(N+1)]
-        visited[start_node] = True
+        que = deque([(start_node, 0)])
+        visited = set()
+        visited.add(start_node)
 
         while que:
-            print(*que)
-            node = que.popleft()
+            node, dist = que.popleft()
+            if dist > 6: return False
 
             for next_node in G[node]:
-                if not visited[next_node]:
-                    visited[next_node] = True
-                    result += 1
-                    que.append(next_node)
+                if next_node not in visited:
+                    visited.add(next_node)
+                    que.append((next_node, dist+1))
 
-        return result
+        return True if len(visited) == N else False # if small world then True else False
 
-    print(bfs(1))
+    result = True
+    for i in range(1, N+1):
+        if not bfs(i):
+            result = False
+            break
+
+    print("Small World!" if result else "Big World!")
