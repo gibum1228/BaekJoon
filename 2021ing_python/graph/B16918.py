@@ -1,59 +1,37 @@
-import copy
 import sys
+input = sys.stdin.readline
 
-IN = sys.stdin.readline
+r, c, n = map(int, input().split())
+board = [list(input().strip()) for i in range(r)]
 
-if __name__ == "__main__":
-    R, C, N = map(int, IN().split())
-    board = []
-    move = [(-1, 0), (1, 0), (0, 1), (0, -1)]
-    position_boom, position_blank = [], []
+if n<=1 :
+    for li in board : print(''.join(li))
+elif n%2==0 :
+    for i in range(r): print('O'*c)
+else :
+    # 첫번째 폭탄이 터진 상태
+    bombs1 = [['O']*c for i in range(r)]
+    for y in range(r):
+        for x in range(c):
+            if board[y][x]=='O': bombs1[y][x] = '.'
+            else :
+                for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                    if y+i>=0 and y+i<r and x+j>=0 and x+j<c and board[y+i][x+j]=='O':
+                        bombs1[y][x] = '.'
+                        break
 
-    for r in range(R):
-        arr = list(IN().rstrip())
-        board.append(arr)
-        for c in range(C):
-            if arr[c] == ".":
-                position_blank.append((r, c))
-            else:
-                position_boom.append((r, c))
+    # 두번째 폭탄이 터진 상태
+    bombs2 = [['O']*c for i in range(r)]
+    for y in range(r):
+        for x in range(c):
+            if bombs1[y][x]=='O' : bombs2[y][x] = '.'
+            else :
+                for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                    if y+i>=0 and y+i<r and x+j>=0 and x+j<c and bombs1[y+i][x+j]=='O':
+                        bombs2[y][x] = '.'
+                        break
 
-    def bfs(N):
-        global R, C, board, position_blank, position_boom
-        sec, case = 1, 3 # 초기 1초는 아무것도 안 하니 1초부터 시작
-        tmp_boom, tmp_blank = [], []
-
-        while sec != N :
-            print(sec + 1)
-            if case == 3: # case 3: 빈 곳을 폭탄으로 채우기
-                sec += 1
-                case += 1
-
-                for r, c in position_blank: # 빈 칸을 폭탄으로 변경
-                    board[r][c] = "O"
-                    tmp_boom.append((r, c))
-                position_blank = []
-            else: # case 4: 기존 폭탄이 터져서 주변이 빈 칸으로 됨
-                sec += 1
-                case = 3
-
-                for r, c in position_boom:
-                    if board[r][c] == "O":
-                        board[r][c] = "."
-                        tmp_blank.append((r, c))
-
-                    for mr, mc in move:
-                        dr, dc = r + mr, c + mc
-
-                        if 0 <= dr < R and 0 <= dc < C and board[dr][dc] == "O":
-                            board[dr][dc] = "."
-                            tmp_blank.append((dr, dc))
-
-                position_boom = copy.deepcopy(list(set(tmp_boom) - set(tmp_blank)))
-                position_blank = copy.deepcopy(tmp_blank)
-                tmp_boom, tmp_blank = [], []
-
-    bfs(N)
-
-    for result in board:
-        print(*result, sep="")
+    if n%4==3:
+        for li in bombs1 : print(''.join(li))
+    if n%4==1:
+        for li in bombs2 : print(''.join(li))
