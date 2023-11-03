@@ -1,41 +1,44 @@
 import sys
-import copy
+from collections import deque
 
 IN = sys.stdin.readline
 
 if __name__ == "__main__":
     N = int(IN())
     board = [list(map(int, IN().split())) for _ in range(N)]
-    results = [1]
-    original_visited = [[False for _ in range(N)] for _ in range(N)]
     move = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-
-    def bfs(i, j):
-        que = [(i, j)]
-        visited[i][j] = True
-
-        while que:
-            x, y = que.pop(0)
-
-            for mx, my in move:
-                dx = x + mx
-                dy = y + my
-
-                if 0 <= dx < N and 0 <= dy < N:
-                    if board[dx][dy] > n and not visited[dx][dy]:
-                        visited[dx][dy] = True
-                        que.append((dx, dy))
-
-    for n in range(1, max(max(board))):
-        visited = copy.deepcopy(original_visited)
+    results = 1
+    many_height = 1
+    ### find max height
+    max_height = 0
+    for row in board:
+        max_height = max(max_height, sum(row))
+    ### 브루트포스 알고리즘
+    for height in range(2, max_height):
+        visited = [[False for _ in range(N)] for _ in range(N)]
         count = 0
 
-        for i in range(N):
-            for j in range(N):
-                if board[i][j] > n and not visited[i][j]:
+        for r in range(N):
+            for c in range(N):
+                if board[r][c] >= height and not visited[r][c]:
                     count += 1
-                    bfs(i, j)
+                    visited[r][c] = True
+                    que = deque([(r, c)])
+                    ## bfs
+                    while que:
+                        now_r, now_c = que.popleft()
 
-        results.append(count)
+                        for mr, mc in move:
+                            next_r, next_c = now_r + mr, now_c + mc
 
-    print(max(results))
+                            if 0 <= next_r < N and 0 <= next_c < N \
+                                and not visited[next_r][next_c] \
+                                and board[next_r][next_c] >= height:
+                                visited[next_r][next_c] = True
+                                que.append((next_r, next_c))
+
+        if count > results:
+            results = count
+            many_height = height
+    ### print
+    print(results)
